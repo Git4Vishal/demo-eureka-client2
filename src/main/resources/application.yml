@@ -1,0 +1,47 @@
+server:
+  port: ${appPort:8600}
+
+# For Spring MVC to enable Endpoints access (/admin/info, /admin/health, ...) along with Jersey
+server.servlet-path: /
+
+# http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready-endpoints
+# http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto-use-actuator-with-jersey
+endpoints:
+  enabled: false
+  info:
+    enabled: true
+  health:
+    enabled: true
+  metrics:
+    enabled: true
+#info:
+#  app:
+#    name: @project.artifactId@
+#  build:
+#    version: @project.version@
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: ${eurekaServers}
+  instance:
+    hostname: ${hostName:localhost}
+    statusPageUrlPath: ${server.servlet-path}/info
+    healthCheckUrlPath: ${server.servlet-path}/health
+    preferIpAddress: true
+    metadataMap:
+      instanceId: ${spring.application.name}:${server.port}
+
+#MS-Patient-Service:
+#  ribbon:
+    # Eureka vipAddress of the target service
+#    DeploymentContextBasedVipAddresses: MS-Patient
+
+    #listOfServers: localhost:${SERVER.PORT}
+#    NIWSServerListClassName: com.netflix.niws.loadbalancer.DiscoveryEnabledNIWSServerList
+
+    # Interval to refresh the server list from the source (ms)
+#    ServerListRefreshInterval: 30000
+  
